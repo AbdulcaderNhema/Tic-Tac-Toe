@@ -8,12 +8,38 @@ let w, h;
 let ai = 'X';
 let human = 'O';
 let currentPlayer = human;
+let gameRunning = false; // Flag para malaman kung nagsimula na ang laro
 
 function setup() {
-  // Gumawa ng canvas at ilagay sa gitna
   let canvas = createCanvas(400, 400);
+  canvas.parent('canvas-container'); // Ilalagay ang canvas sa loob ng HTML div
   w = width / 3;
   h = height / 3;
+  noLoop(); // Ititigil muna ang draw loop hangga't hindi naki-click ang Start
+}
+
+// Function na tatawagin ng Start Button
+function startGame() {
+  gameRunning = true;
+  document.getElementById('start-screen').style.display = 'none'; // Itago ang Start screen
+  loop(); // Simulan ang pag-draw ng canvas
+}
+
+// Function para sa Try Again
+function resetGame() {
+  board = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+  ];
+  currentPlayer = human;
+  gameRunning = true;
+  
+  // Itago ang UI elements
+  document.getElementById('winner-message').style.display = 'none';
+  document.getElementById('retry-btn').style.display = 'none';
+  
+  loop(); // Ibalik ang draw loop
 }
 
 function equals3(a, b, c) {
@@ -40,10 +66,10 @@ function checkWinner() {
 }
 
 function mousePressed() {
-  if (currentPlayer == human) {
+  if (gameRunning && currentPlayer == human) {
     let i = floor(mouseX / w);
     let j = floor(mouseY / h);
-    if (i >= 0 && i < 3 && j >= 0 && j < 4) {
+    if (i >= 0 && i < 3 && j >= 0 && j < 3) {
       if (board[i][j] == '') {
         board[i][j] = human;
         currentPlayer = ai;
@@ -56,56 +82,52 @@ function mousePressed() {
 }
 
 function draw() {
-  background('#f7f9fc'); // Off-white / napakabubot na blue background
+  background('#f7f9fc');
   
-  // --- IGUHIT ANG CUTE BLUE GRID ---
-  stroke('#3a539b'); // Ang kulay na blue mula sa iyong larawan
-  strokeWeight(5);   // Mas makapal na linya para mas cute tingnan
-  strokeCap(ROUND);  // Bilugan ang dulo ng mga linya
-  
+  // Cute Blue Grid
+  stroke('#3a539b');
+  strokeWeight(5);
+  strokeCap(ROUND);
   line(w, 10, w, height - 10);
   line(w * 2, 10, w * 2, height - 10);
   line(10, h, width - 10, h);
   line(10, h * 2, width - 10, h * 2);
 
-  // --- IGUHIT ANG MGA SHAPES (X at O) ---
   for (let j = 0; j < 3; j++) {
     for (let i = 0; i < 3; i++) {
       let x = i * w + w / 2;
       let y = j * h + h / 2;
       let spot = board[i][j];
-      let r = w / 4; // Sukat ng radius
-
-      stroke('#3a539b'); // Parehong blue para sa X at O
-      strokeWeight(14);   // Makapal na stroke para maging "chubby" at cute ang shapes
+      let r = w / 4;
+      stroke('#3a539b');
+      strokeWeight(14);
       noFill();
 
       if (spot == human) {
-        // Magandang Bilog (O)
         ellipse(x, y, r * 2);
       } else if (spot == ai) {
-        // Cute na may Bilugang Dulo na Ekis (X)
         line(x - r + 5, y - r + 5, x + r - 5, y + r - 5);
         line(x + r - 5, y - r + 5, x - r + 5, y + r - 5);
       }
     }
   }
 
-  // --- CELEBRATION / TEXT DISPLAY ---
   let result = checkWinner();
   if (result != null) {
     noLoop();
+    gameRunning = false;
     
-    // Gumawa ng HTML element gamit ang p5.js para magamit ang Fredoka Font natin
-    let resultP = createP('');
-    resultP.addClass('result-text'); 
+    // Ipakita ang Result at Try Again button mula sa HTML
+    let msg = document.getElementById('winner-message');
+    let btn = document.getElementById('retry-btn');
+    
+    msg.style.display = 'block';
+    btn.style.display = 'inline-block';
     
     if (result == 'tie') {
-      resultP.html('Tie! 🤝');
-    } else if (result == 'X') {
-      resultP.html('X Win! ★');
-    } else if (result == 'O') {
-      resultP.html('O Win! 🎉');
+      msg.innerHTML = "Tie! 🤝";
+    } else {
+      msg.innerHTML = result + " Win! 🎉";
     }
   }
 }
