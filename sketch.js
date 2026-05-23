@@ -76,7 +76,7 @@ function mousePressed() {
   // 3. KUNG NASA END SCREEN (TAPOS NA ANG LARO)
   else if (gameState === 'END') {
     // I-check kung pinindot ang "Try again" button (X: 135-315, Y: 430-475)
-    if (mouseX > 135 && mouseX < 315 && mouseY > 430 && mouseY < 475) {
+    if (mouseX > 135 && mouseX < 315 && mouseY > 440 && mouseY < 485) {
       // I-reset ang board at ibalik sa simula ang laro
       board = [
         ['', '', ''],
@@ -164,22 +164,22 @@ function draw() {
       
       // Palitan ang text base sa resulta
       if (result == 'tie') {
-        text('Tie! 🤝', width / 2, h * 3 + 20);
+        text('Tie! 🤝', width / 2, h * 3 + 25);
       } else {
-        text(result + ' Win! 🎉', width / 2, h * 3 + 20);
+        text(result + ' Win! 🎉', width / 2, h * 3 + 25);
       }
       
       // "Try again" Button Shadow
       fill('#2d4373');
-      rect(135, 433, 180, 45, 22);
+      rect(135, 443, 180, 45, 22);
       // Button Base
       fill('#3a539b');
-      rect(135, 430, 180, 45, 22);
+      rect(135, 440, 180, 45, 22);
       
       // Button Text
       fill(255);
       textSize(18);
-      text('Try again', width / 2, 452);
+      text('Try again', width / 2, 462);
     }
   }
 }
