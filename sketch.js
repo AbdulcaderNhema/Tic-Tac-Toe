@@ -76,7 +76,7 @@ function mousePressed() {
   // 3. KUNG NASA END SCREEN (TAPOS NA ANG LARO)
   else if (gameState === 'END') {
     // I-check kung pinindot ang "Try again" button (X: 135-315, Y: 430-475)
-    if (mouseX > 135 && mouseX < 315 && mouseY > 440 && mouseY < 485) {
+    if (mouseX > 135 && mouseX < 315 && mouseY > 445 && mouseY < 490) {
       // I-reset ang board at ibalik sa simula ang laro
       board = [
         ['', '', ''],
@@ -171,15 +171,15 @@ function draw() {
       
       // "Try again" Button Shadow
       fill('#2d4373');
-      rect(135, 443, 180, 45, 22);
+      rect(135, 448, 180, 45, 22);
       // Button Base
       fill('#3a539b');
-      rect(135, 440, 180, 45, 22);
+      rect(135, 445, 180, 45, 22);
       
       // Button Text
       fill(255);
       textSize(18);
-      text('Try again', width / 2, 462);
+      text('Try again', width / 2, 467);
     }
   }
 }
