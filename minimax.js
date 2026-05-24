@@ -20,7 +20,7 @@ function bestMove() {
   currentPlayer = human;
 }
 
-// Map scores to evaluate terminal states
+// Deep Search Algorithm
 let scores = {
   X: 10,
   O: -10,
