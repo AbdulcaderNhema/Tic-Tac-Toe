@@ -20,7 +20,6 @@ function bestMove() {
   currentPlayer = human;
 }
 
-// Deep Search Algorithm
 let scores = {
   X: 10,
   O: -10,
